@@ -37,7 +37,7 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{% url 'index' %}" class="site_title"><i class="fa fa-camera"></i> <span>FRS</span></a>
+                    <a href="{% url 'index' %}" class="site_title"><span>FRS</span></a>
                 </div>
 
 
@@ -45,13 +45,9 @@
                 {% if user.is_authenticated %}
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="{% static 'production/images/img.jpg' %}" alt="..."
-                                 class="img-circle profile_img">
-                        </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <h2>{{ user.username|capfirst }}</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -61,30 +57,43 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
-                        <div class="menu_section">
-                            <h3>DashBoard</h3>
-                            <ul class="nav side-menu">
+                    <div class="menu_section">
+                    <h3>DashBoard</h3>
+                    <ul class="nav side-menu">
 
-                                <li><a href=""><i class="fa fa-home"></i>Home </a></li>
-                            </ul>
-                        </div>
+                    <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Home </a></li>
 
-                    </div>
+
+
+                    <li><a class="nav-link" href="{% url 'users' %}"><i class="fa fa-users"></i>
+                        Users
+
+                    </a></li>
+
+                   <li> <a class="nav-link" href="{% url 'train' %}"><i class="fa fa-desktop"></i>Train Machine</a></li>
+                   <li> <a class="nav-link" href="{% url 'adminTest' %}"><i class="fa fa-camera-retro"></i>Test Machine</a></li>
+                    <li>    <a class="nav-link" href="{% url  'logout' %}"><i class="fa fa-sign-out"></i>Logout</a></li>
+
+
+                </ul>
+                </div>
+
+                </div>
                 {% else %}
 
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
-                        <div class="menu_section">
-                            <h3>DashBoard</h3>
-                            <ul class="nav side-menu">
+                    <div class="menu_section">
+                        <h3>DashBoard</h3>
+                        <ul class="nav side-menu">
 
-                                <li><a href=""><i class="fa fa-video-camera"></i>Capture </a></li>
-                            </ul>
-                        </div>
-
+                            <li><a href=""><i class="fa fa-video-camera"></i>Capture </a></li>
+                        </ul>
                     </div>
-                    <!-- /sidebar menu -->
-                    <!-- /sidebar menu -->
+
+                </div>
+                <!-- /sidebar menu -->
+                <!-- /sidebar menu -->
                 {% endif %}
 
 
@@ -102,16 +111,10 @@
                     {% if user.is_authenticated %}
                         <ul class=" navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true"
-                                   id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">s Doe
-                                </a>
-                                <div class="dropdown-menu dropdown-usermenu pull-right"
-                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i>
-                                        Log
-                                        Out</a>
-                                </div>
+
+                                <button class="btn btn-outline-danger"
+                                        onclick="window.location.href='{% url 'logout' %}'">Logout
+                                </button>
                             </li>
                         </ul>
                     {% else %}
@@ -133,21 +136,43 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            {% if messages %}
-                {% for message in messages %}
+            <div class="col-md-12">
 
-                    <div class="alert alert-{{ message.tags }} alert-dismissible " role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span>
-                        </button>
-                        <strong>{{ message }}</strong>
-                    </div>
+                {% if messages %}
+                    {% for message in messages %}
+
+                        <div class="alert alert-{{ message.tags }} alert-dismissible " role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">×</span>
+                            </button>
+                            <strong>{{ message }}</strong>
+                        </div>
 
 
-                {% endfor %}
+                    {% endfor %}
 
-            {% endif %}
+                {% endif %}
+            </div>
+            {#            <div class="row col-md-12">#}
+            {#                {% if user.is_authenticated %}#}
+            {#                    <div class="nav-scroller bg-white box-shadow">#}
+            {#                        <nav class="nav nav-underline">#}
+            {#                            <a class="nav-link active" href="{% url 'home' %}">Dashboard</a>#}
+            {#                            <a class="nav-link" href="{% url 'users' %}">#}
+            {#                                Users#}
+            {#                                <span class="badge badge-pill bg-light align-text-bottom"></span>#}
+            {#                            </a>#}
+            {#                         #}
+            {#                            <a class="nav-link" href="{% url 'train' %}">Train Machine</a>#}
+            {#                            <a class="nav-link" href="{% url 'adminTest' %}">Test Machine</a>#}
+            {#                            <a class="nav-link" href="{% url  'logout' %}">Logout</a>#}
+            {#                        </nav>#}
+            {#                    </div>#}
+            {##}
+            {#                {% endif %}#}
+            {#            </div>#}
             {% block content %}
+
 
             {% endblock %}
 

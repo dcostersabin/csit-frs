@@ -1,0 +1,94 @@
+{% extends 'index/master.html' %}
+
+{% block content %}
+
+    {% if status == 'check' %}
+        <div class="container-fluid   text-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-m-4">
+                            <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                                 src="/static/dataset/{{ name }}__id__{{ id }}/10.jpg"
+                            >
+                            <h2>{{ name }}
+
+                            </h2>
+
+                            <h4 class="text-muted">Employee Id: {{ employee_id }}</h4>
+
+ <small
+                                    class="text-primary">{{ post|truncatechars:'15' }}</small> , <small
+                                class="">{{ department|truncatechars:'15' }}</small>
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-footer">
+
+                        <div class="form-group">
+                            {% if complete %}
+                                <label for="username" class="h4">Thank You Your Today's Data Was Successfully Recorded
+                                    <br>
+                                    <span class="text-muted">Entry Time {{ entry_time }} Exit Time {{ exit_time }}</span></label>
+                            {% else %}
+                                {% if attendance %}
+                                    <label for="username">We Found A record For Today : Entry
+                                        Time {{ entry_time }}</label>
+                                    <form action="{% url 'attend' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ id }}">
+                                        <button class="btn btn-outline-success">Exit For Today</button>
+                                    </form>
+                                {% else %}
+                                    <label for="username">Welcome Attend For Today</label>
+                                    <form action="{% url 'attend' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ id }}">
+                                        <button class="btn btn-outline-success">Attend For Today</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+
+
+                        </div>
+                        <div class="text-muted mb-2">
+                            Not Recognized!!! then click the button to try again <a
+                                href="" onclick="window.location.reload()"
+                                class="text-black">Try Again</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="container row  text-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-m-4">
+                            <img class="bd-placeholder-img rounded-circle" width="140" height="140"
+                                 src="/static/dataset/{{ name }}__id__{{ id }}/10.jpg"
+                            >
+                            <h2>{{ data.name }}</h2>
+                            <h4 class="text-muted">Employee Id: {{ employee_id }}</h4>
+                            <smaall class="text-muted">System Id: {{ id }}</smaall>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    {% endif %}
+{% endblock %}
